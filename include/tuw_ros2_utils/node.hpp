@@ -16,7 +16,7 @@ namespace tuw
          * @param flag_changed will be set on true of the parameter changed or the value was read the first time
          * @param force_update forces a value update on ture
          */
-        void update_parameter(const char *name,
+        void update_parameter_and_log(const char *name,
                               double &value,
                               bool &flag_changed,
                               bool force_update)
@@ -38,7 +38,7 @@ namespace tuw
          * @param flag_changed will be set on true of the parameter changed or the value was read the first time
          * @param force_update forces a value update on ture
          */
-        void update_parameter(const char *name,
+        void update_parameter_and_log(const char *name,
                               bool &value,
                               bool &flag_changed,
                               bool force_update)
@@ -60,7 +60,7 @@ namespace tuw
          * @param flag_changed will be set on true of the parameter changed or the value was read the first time
          * @param force_update forces a value update on ture
          */
-        void update_parameter(const char *name,
+        void update_parameter_and_log(const char *name,
                               int &value,
                               bool &flag_changed,
                               bool force_update)
@@ -74,7 +74,49 @@ namespace tuw
             }
             value = tmp;
         };
+        /**
+         * function to read a parameter and prints a log message
+         * @param name name of the shared parameter
+         * @param value value to store the parameter content
+         */
+        void get_parameter_and_log(const char *name, bool &value){
+            this->get_parameter<bool>(name, value);
+            RCLCPP_INFO(this->get_logger(), "%s: %s", name, (value ? "true" : "false"));
+        };
+        /**
+         * function to read a parameter and prints a log message
+         * @param name name of the shared parameter
+         * @param value value to store the parameter content
+         */
+        void get_parameter_and_log(const char *name, int &value){
+            this->get_parameter<int>(name, value);
+            RCLCPP_INFO(this->get_logger(), "%s: %4d", name, value);
+        };
+        /**
+         * function to read a parameter and prints a log message
+         * @param name name of the shared parameter
+         * @param value value to store the parameter content
+         */
+        void get_parameter_and_log(const char *name, double &value){
+            this->get_parameter<double>(name, value);
+            RCLCPP_INFO(this->get_logger(), "%s: %f", name, value);
+        };
+        /**
+         * function to read a parameter and prints a log message
+         * @param name name of the shared parameter
+         * @param value value to store the parameter content
+         */
+        void get_parameter_and_log(const char *name, std::string &value){
+            this->get_parameter<std::string>(name, value);
+            RCLCPP_INFO(this->get_logger(), "%s: %s", name, value.c_str());
+        };
 
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         */
         void declare_parameters_with_description(const char *name, const char *default_value, const char *description)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
@@ -82,18 +124,39 @@ namespace tuw
             this->declare_parameter<std::string>(name, default_value, descriptor);
         };
 
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         */
         void declare_parameters_with_description(const char *name, bool default_value, const char *description)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
             descriptor.description = description;
             this->declare_parameter<bool>(name, default_value, descriptor);
         };
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         */
         void declare_parameters_with_description(const char *name, double default_value, const char *description)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
             descriptor.description = description;
             this->declare_parameter<double>(name, default_value, descriptor);
         };
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         * @param min min value
+         * @param max max value
+         * @param step_size step size
+         */
         void declare_parameters_with_description(const char *name, double default_value, const char *description, double min, double max, double step_size = 0.01)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
@@ -102,12 +165,27 @@ namespace tuw
             descriptor.description = description;
             this->declare_parameter<double>(name, default_value, descriptor);
         };
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         */
         void declare_parameters_with_description(const char *name, int default_value, const char *description)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
             descriptor.description = description;
             this->declare_parameter<int>(name, default_value, descriptor);
         };
+        /**
+         * declares parameters with description and defines a default value 
+         * @param name name of the shared parameter
+         * @param default_value default_value
+         * @param description description
+         * @param min min value
+         * @param max max value
+         * @param step_size step size
+         */
         void declare_parameters_with_description(const char *name, int default_value, const char *description, int min, int max, int step_size = 1)
         {
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
