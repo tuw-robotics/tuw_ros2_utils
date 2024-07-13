@@ -31,11 +31,11 @@ public:
         get_parameter_and_log("loop_rate", loop_rate_);
     }                  
     bool read_dynamic_parameters(){
-        static bool first_call = true; /// to identify the first time the fnc was called to set all variables
-        bool changes = false;          /// used to identify changes
-        get_parameter_and_log("threshold", threshold_);
-        get_parameter_and_log("frame_id", frame_id_);
-        first_call = false; /// after the first all the varibale stays on false
+        static bool first_call = true;                     /// to identify the first call
+        bool changes = false;                              /// used to identify changes
+        update_parameter_and_log("threshold", threshold_); /// updates threshold_ 
+        update_parameter_and_log("frame_id", frame_id_);   /// updates frame_id_ 
+        first_call = false;                                /// after the first all the varibale stays on false
         return changes;
     }
 }
