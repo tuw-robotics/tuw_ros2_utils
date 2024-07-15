@@ -162,6 +162,7 @@ namespace tuw
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
             rcl_interfaces::msg::FloatingPointRange range;
             range.set__from_value(min).set__to_value(max).set__step(step_size);
+            descriptor.floating_point_range = {range};
             descriptor.description = description;
             this->declare_parameter<double>(name, default_value, descriptor);
         };
@@ -191,6 +192,7 @@ namespace tuw
             auto descriptor = rcl_interfaces::msg::ParameterDescriptor{};
             rcl_interfaces::msg::IntegerRange range;
             range.set__from_value(min).set__to_value(max).set__step(step_size);
+            descriptor.integer_range = {range};
             descriptor.description = description;
             this->declare_parameter<int>(name, default_value, descriptor);
         };
