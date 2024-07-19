@@ -21,7 +21,7 @@ namespace tuw
                               bool &flag_changed,
                               bool force_update)
         {
-            double tmp;
+            double tmp = std::numeric_limits<double>::quiet_NaN();
             this->get_parameter<double>(name, tmp);
             if (force_update || (tmp != value))
             {
@@ -43,7 +43,7 @@ namespace tuw
                               bool &flag_changed,
                               bool force_update)
         {
-            bool tmp;
+            bool tmp = false;
             this->get_parameter<bool>(name, tmp);
             if (force_update || (tmp != value))
             {
@@ -65,7 +65,7 @@ namespace tuw
                               bool &flag_changed,
                               bool force_update)
         {
-            int tmp;
+            int tmp = 0;
             this->get_parameter<int>(name, tmp);
             if (force_update || (tmp != value))
             {
