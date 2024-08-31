@@ -6,8 +6,36 @@ namespace tuw
 {
     class Node : public rclcpp::Node
     {
+    private:
+        bool new_parameters_avaliable_ {true};  /// Value to check if there are new parameters to apply
+
     public:
         using rclcpp::Node::Node;
+
+        /**
+         * Function to check if there are new parameters to apply
+         * @param true if there are paremeter changes
+         */
+        bool parameters_changed()
+        {
+            return new_parameters_avaliable_;
+        }
+
+        /**
+         * function to signale that the new paremeters are applied
+         */
+        void parameters_applied()
+        {
+            new_parameters_avaliable_ = false;
+        }
+
+        /**
+         * function to signale that there are new paremeters
+         */
+        void parameters_has_changed()
+        {
+            new_parameters_avaliable_ = true;
+        }
 
         /**
          * function to update parameters on changes and prints a log message if the value was updated
